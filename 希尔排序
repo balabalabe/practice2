@@ -1,0 +1,16 @@
+void shellsort(int arr[],int n)
+{
+    for(int gap=n/2;gap>0;gap=gap/2)//do a gapped insertion sort for this gap size
+    {
+        for (int i=gap;i<n;i++)
+        {
+            int temp=arr[i];
+            int j;
+            for (j=i;j>=gap && arr[j-gap]>temp;j=j-gap)//插入排序做了微调，j=j-gap保证每次都跳过gap个元素，于是就实现了分组
+            {
+                arr[j]=arr[j-gap];
+            }
+            arr[j]=temp;
+        }
+    }
+}
