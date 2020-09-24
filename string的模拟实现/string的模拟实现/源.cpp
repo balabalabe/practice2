@@ -87,8 +87,7 @@ void String::Insert(size_t pos, const char* str)
 	_size = _size + size;
 }
 
-void String::PopBack()
-{
+void String::PopBack(){
 	Erase(_size - 1, 1);
 }
 
