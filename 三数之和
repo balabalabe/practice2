@@ -1,0 +1,51 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums){
+        vector<vector<int>> result;
+        if(nums.empty()){//对数组nums进行判空
+            return result;
+        }
+ 
+        sort(nums.begin(),nums.end());//对数组num进行排序
+        
+        if(nums[0] > 0 || nums.size() < 3 || nums[nums.size()-1] < 0){
+            return result;
+            //如果最小的元素(第一个)大于0，说明全是正数，三数之和不可能为0
+            //如果数组的大小小于3，也是不合理的数组，无法三数相加
+            //如果最大的元素(最后一个)小于0，说明全是负数，三数之和不可能为0
+        }
+        
+        for(int i = 0;i<nums.size()-1;++i){
+            if(nums[i] > 0){//负数才能找另外两个整数相加
+                break;
+            }
+            if(i>0 && nums[i] == nums[i-1]){//如果相邻元素相同，则跳过
+                continue;
+            }
+            int sum = 0 - nums[i];//目标之和
+            int left = i+1;
+            int right = nums.size()-1;
+            
+            while(right > left){//选定i之后，判断左右指针的所有组合
+                if(nums[left] > sum){
+                    break;//如果left已经比目标之和sum大，三数之和也不可能等于0
+                }
+                if((right < nums.size()-1 && nums[right] == nums[right+1]) || nums[left]+nums[right] > sum){
+                    --right;//如果右指针相邻或left+right>sum
+                }
+                else if((left > i+1 && nums[left] == nums[left-1]) || nums[left]+nums[right] < sum){
+                    ++left;//如果左指针相邻或left+right<sum
+                }
+                else{
+                    vector<int> temp_v;
+                    temp_v.push_back(nums[i]);
+                    temp_v.push_back(nums[left]);
+                    temp_v.push_back(nums[right]);
+                    result.push_back(temp_v);
+                    ++left;
+                }
+            }
+        }
+        return result;
+    }
+};
