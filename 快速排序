@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void qSort(vector<int>& arr, int left, int right)
+{
+    if (left >= right) {//合法性判断
+        return;
+    }
+
+    int i = left;
+    int j = right;
+    int base = arr[left];  //取最左边的数为基准数
+
+    while (i < j) {
+        while (arr[j] >= base && i < j) {
+            j--;//从右边找第一个小于基准数的元素下标
+        }
+
+        while (arr[i] <= base && i < j) {
+            i++;//从左边找第一个大于基准书的元素下标
+        }
+
+        if (i < j) {//交换这两个数
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    arr[left] = arr[i];
+    arr[i] = base;//基准数和中间的坑交换
+
+    qSort(arr, left, i - 1);//递归左边
+    qSort(arr, i + 1, right);//递归右边
+}
+
+int main() {
+    vector<int> arr = { 1,3,5,4,6,8,7,2,9,0 };
+    qSort(arr,0,9);
+    for (vector<int>::iterator it = arr.begin(); it != arr.end(); it++) {
+        cout << *it << " ";
+    }
+    return 0;
+}
