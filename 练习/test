@@ -1,0 +1,289 @@
+//#define _CRT_SECURE_NO_WARNINGS
+//#include <stdio.h>
+//int main(void)
+//{
+//    char ch;
+//    do {
+//        printf("测试/n");
+//        printf("继续测试?(y/n):");
+//        //这里有很大问题,当你输入一个y并回车确定后,开始下一个循环,但是这个回车符也会被认为是一个字符,所以下一个被赋给ch的字符
+//        //就是回车符,而不是我们想要输入的字符,ch=='y'就成了假命题了,所以循环就会推出然后程序结束,这个程序也就无法继续输入了*/
+//        scanf("%c", &ch);
+//        //修改方法一:在scanf后面加getchar()语句,让getchar()函数接收回车符.
+//        //但是这个方法有个缺点，那就是当输入的是两个字符，例如yy时，scanf接收第一个字符，getchar接收第二个字符，第三个换行符就进入了缓冲区
+//
+//        //修改方法二:在scanf后面用fflush()语句,将缓冲区中的回车符清除掉,下一次输入的时候就不会受到回车符影响了
+//    } while (ch == 'y');
+//
+////    return 0;
+////}
+//
+//#include<iostream>
+//#include<vector>
+//#include<algorithm>
+//using namespace std;
+//
+////class Solution {
+//public:
+//    void threeSum(vector<int>& nums) {
+//        if (nums.empty()) {//对数组nums进行判空
+//            return ;
+//        }
+//
+//        sort(nums.begin(), nums.end());//对数组num进行排序
+//
+//        if (nums[0] > 0 || nums.size() < 3 || nums[nums.size() - 1] < 0) {
+//            return ;
+//            //如果最小的元素(第一个)大于0，说明全是正数，三数之和不可能为0
+//            //如果数组的大小小于3，也是不合理的数组，无法三数相加
+//            //如果最大的元素(最后一个)小于0，说明全是负数，三数之和不可能为0
+//        }
+//
+//        for (int i = 0; i < nums.size() - 1; ++i) {
+//            if (nums[i] > 0) {//负数才能找另外两个整数相加
+//                break;
+//            }
+//            if (i > 0 && nums[i] == nums[i - 1]) {//如果相邻元素相同，则跳过
+//                continue;
+//            }
+//            int sum = 0 - nums[i];//目标之和
+//            int left = i + 1;
+//            int right = nums.size() - 1;
+//
+//            while (right > left) {//选定i之后，判断左右指针的所有组合
+//                if (nums[left] > sum) {
+//                    break;//如果left已经比目标之和sum大，三数之和也不可能等于0
+//                }
+//                //if ((right < nums.size() - 1 && nums[right] == nums[right + 1]) || nums[left] + nums[right] > sum) {
+//                //    --right;//如果右指针相邻或left+right>sum
+//                //}
+//                //else if ((left > i + 1 && nums[left] == nums[left - 1]) || nums[left] + nums[right] < sum) {
+//                //    ++left;//如果左指针相邻或left+right<sum
+//                //}
+//                //else {
+//                //    cout << nums[i] << " " << nums[left] << " " << nums[right] << endl;
+//                //    ++left;
+//                //}
+//
+//                if (nums[left] + nums[right] == sum) {
+//                    cout << nums[i] << " " << nums[left] << " " << nums[right] << endl;
+//                    while (nums[left] == nums[left + 1]) {
+//                        left++;
+//                    }
+//                    while (nums[right] == nums[right + 1]) {
+//                        right++;
+//                    }
+//                    left++;
+//                    right--;
+//                }
+//                else if (nums[left] + nums[right] < sum) {
+//                    while (nums[left] == nums[left + 1]) {
+//                        left++;
+//                    }
+//                    left++;
+//                }
+//                else if (nums[left] + nums[right] > sum) {
+//                    while (nums[right] == nums[right - 1]) {
+//                        right--;
+//                    }
+//                    right--;
+//                }
+//            }
+//        }
+//    }
+//};
+//
+//int main() {
+//    Solution A;
+//    vector<int> arr = { 1,3,2,4,2,-6,-7,-4,-2,2 };
+//    A.threeSum(arr);
+//
+//    return 0;
+//}
+
+
+//
+//int Partition(vector<int> arr, int left, int right) {//划分数组
+//    int i = left + 1;
+//    int j = right;
+//    int key = arr[left];//每次以最左边边元素作为基准数，保存到key中
+//    int temp = 0;
+//
+//    while (i < j) {
+//        while (i < j && arr[i] <= key) {//从左开始找比基准数大的数的下标
+//            i++;
+//        }
+//        while (i < j && arr[j] >= key) {//从右开始找比基准数小的数的下标
+//            j--;
+//        }
+//        if (i < j) {//交换这两个数
+//            temp = arr[i];
+//            arr[i] = arr[j];
+//            arr[j] = temp;
+//        }
+//    }
+//
+//    arr[left] = arr[j];//将基准数与中间的坑交换
+//    arr[j] = key;
+//
+//    return j;
+//}
+//
+//void qSort(vector<int> arr, int left, int right) {
+//    if (left < right) {//递归出口，left==right即只有一个元素时就不需要排序了
+//        int key = Partition(arr, left, right);//key就是分割点，基准数的下标
+//        qSort(arr, left, key - 1);//对左半段排序
+//        qSort(arr, key + 1, right);//对右半段排序
+//    }
+//}
+
+//
+//void qSort(vector<int>& arr, int left, int right)
+//{
+//	if (left >= right)
+//		return;
+//	int i, j, base, temp;
+//	i = left, j = right;
+//	base = arr[left];  //取最左边的数为基准数
+//	while (i < j)
+//	{
+//		while (arr[j] >= base && i < j)
+//			j--;
+//		while (arr[i] <= base && i < j)
+//			i++;
+//		if (i < j)
+//		{
+//			temp = arr[i];
+//			arr[i] = arr[j];
+//			arr[j] = temp;
+//		}
+//	}
+//	//基准数归位
+//	arr[left] = arr[i];
+//	arr[i] = base;
+//	qSort(arr, left, i - 1);//递归左边
+//	qSort(arr, i + 1, right);//递归右边
+//}
+//
+//int main() {
+//    vector<int> arr = { 0,5,6,3,2,1,4,-5,-7,-3,6 };
+//    qSort(arr,0, 10);
+//	for (int i = 0; i < arr.size(); i++) {
+//		cout << arr[i] << " ";
+//	}
+//    return 0;
+//}
+
+//
+//#include<iostream>
+//#include<string>
+//#include<stack>
+//using namespace std;
+//
+//typedef struct Tree{
+//    int data;
+//    struct Tree* lchild;
+//    struct Tree* rchild;
+//    Tree(int data) {
+//        this->data = data;
+//        this->lchild = NULL;
+//        this->rchild = NULL;
+//    }
+//};
+//
+//void PreOrderNonRec(Tree* root) {
+//    stack<Tree*> s;  //使用C++的STL标准库构造一个栈结构
+//    Tree* p = root;    //二叉树根结点地址传给p
+//
+//    while (p != NULL || !s.empty()) { //当栈为空时结束，p!=NULL只是为了让树进入循环而已
+//        while (p != NULL) {
+//            cout << p->data << " ";//先输出根结点
+//            s.push(p);
+//            p = p->lchild;
+//        }
+//        if (!s.empty()) {
+//            p = s.top();
+//            s.pop();
+//            p = p->rchild;
+//        }
+//    }
+//}
+
+//void PreOrderNonRec(Tree* root) {
+//    stack<Tree*> s;  //使用C++的STL标准库构造一个栈结构
+//    Tree* p=root;    //二叉树根结点地址传给p
+//
+//    while (p!=NULL || !s.empty()) { //当栈不为空
+//        while (p != NULL) {
+//            cout << p->data << " ";
+//            s.push(p);
+//            p = p->lchild;
+//        }
+//        if (!s.empty()) {
+//            p = s.top();
+//            s.pop();
+//            p = p->rchild;
+//        }
+//    }
+////}
+//
+//int main() {
+//    Tree* p1 = new Tree(1);
+//    Tree* p2 = new Tree(2);
+//    Tree* p3 = new Tree(3);
+//    Tree* p4 = new Tree(4);
+//    Tree* p5 = new Tree(5);
+//    Tree* p6 = new Tree(6);
+//    Tree* p7 = new Tree(7);
+//    Tree* p8 = new Tree(8);
+//
+//    p1->lchild = p2;
+//    p1->rchild = p3;
+//    p2->lchild = p4;
+//    p2->rchild = p5;
+//    p3->rchild = p6;
+//    p6->lchild = p7;
+//    p6->rchild = p8;
+//
+//
+//    PreOrderNonRec(p1);
+//}
+
+//
+//#include<iostream>
+//#include<vector>
+//using namespace std;
+//
+//void CountSort(vector<int> arr, vector<int> result) {
+//    int max = arr[0];//保存序列最大值
+//    int min = arr[0];//保存序列最小值，根据最大和最小值算出计数区间
+//    for (int i = 1; i < arr.size(); i++) {
+//        if (arr[i] > max)
+//            max = arr[i];
+//        if (arr[i] < min)
+//            min = arr[i];
+//    }
+//    vector<int> CountArr(max - min + 1, 0);//统计数组的长度等于序列最大值-最小值+1，且初始化为0
+//
+//    for (int i = 0; i < arr.size(); i++) {//在统计数组中确定arr各数值出现的次数
+//        CountArr[arr[i] - min]++;
+//    }
+//
+//    int sum = 0;
+//    for (int i = 0; i < CountArr.size(); i++) { //统计数组变形，后面元素等于前面元素之和
+//        sum = sum + CountArr[i];
+//        CountArr[i] = sum;
+//    }
+//
+//    for (int i = arr.size() + 1; i > 0; i--) {  //倒叙遍历待排序列，从统计数组找到正确位置，输出到result中
+//        result[CountArr[arr[i] - min] - 1] = arr[i];
+//        CountArr[arr[i] - min]--;
+//    }
+//}
+//
+//int main() {
+//	vector<int> arr = { 1,3,5,4,6,8,7,2,9,0 };
+//    vector<int> result(11, 0);
+//    CountSort(arr,result);
+//	return 0;
+//}
