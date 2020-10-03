@@ -1,0 +1,25 @@
+void LevelOrder(BiTree bt){
+    BiTree Queue[MAXNODE];//用一维数组来实现队列结构
+    int front,rear;
+    
+    if(bt==NULL){
+        return;
+    }
+    
+    front=1; 
+    //队列初始化    
+    rear=0;
+    queue[rear]=bt;//根结点入队
+    while(front!=rear){
+        front++;
+        cout << queue[front]->data << " ";//访问队首结点的数据域
+        if(queue[front]->Lchild!=NULL）{
+            rear++;
+            queue[rear] = queue[front]->Lchild;
+        }
+        if(queue[front]->Rchild!=NULL){
+            rear++;
+            queue[rear]=queue[front]->Rchild;
+        }
+    }
+}
