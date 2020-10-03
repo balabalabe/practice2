@@ -1,0 +1,168 @@
+template<class T>
+BinaryTreeNode<T>::BinaryTreeNode(){
+	element = 0;
+	leftChild = nullptr;
+	rightChild = nullptr;
+}
+
+template<class T>
+BinaryTreeNode<T>::BinaryTreeNode(T& ele){
+	element = ele;
+	leftChild = nullptr;
+	rightChild = nullptr;
+}
+template<class T>
+BinaryTreeNode<T>::BinaryTreeNode(T& ele, BinaryTreeNode<T> * l, 
+                                  BinaryTreeNode<T> * r){
+	element = ele;
+	leftChild = l;
+	rightChild = r;
+}
+
+template<class T>
+BinaryTreeNode<T> * BinaryTreeNode<T>::getLeftChild(){
+	return leftChild;
+}
+
+template<class T>
+BinaryTreeNode<T> * BinaryTreeNode<T>::getRightChild(){
+	return rightChild;
+}
+
+template<class T>
+T BinaryTreeNode<T>::getValue() const{
+	return element;
+}
+
+template<class T>
+bool BinaryTreeNode<T>::setLeftChild(BinaryTreeNode<T> * l){
+	if(leftChild == nullptr){
+		leftChild = l;
+		return true;
+	}
+	else return false;
+}
+
+template<class T>
+bool BinaryTreeNode<T>::setRightChild(BinaryTreeNode<T> * r){
+	if(rightChild == nullptr){
+		rightChild = r;
+		return true;
+	}
+	else return false;
+}
+
+template<class T>
+bool BinaryTreeNode<T>::isLeaf() const{
+	if(leftChild == nullptr && rightChild == nullptr)
+		return true;
+	else return false;
+}
+
+template<class T>
+BinaryTree<T>::BinaryTree(){
+	root = nullptr;
+}
+
+template<class T>
+BinaryTree<T>::BinaryTree(BinaryTreeNode<T> * r){
+	root = r;
+}
+
+template<class T> 
+BinaryTree<T>::~BinaryTree(){
+	root = nullptr;
+}
+
+template<class T>
+bool BinaryTree<T>::isEmpty() const{
+	if (root == nullptr)	return true;
+	else return false;
+}
+
+template<class T>
+BinaryTreeNode<T> * BinaryTree<T>::getRoot() const{
+	return root;
+}
+
+template<class T>
+void BinaryTree<T>::visit(BinaryTreeNode<T> * pointer){
+	std::cout<<pointer->element<<std::endl;
+}
+
+template<class T>
+void BinaryTree<T>::preOrder(BinaryTreeNode<T> * root){
+	using std::stack;
+	stack<BinaryTreeNode<T> * > nodeStack;
+	BinaryTreeNode<T> * pointer = root;
+	while(!nodeStack.empty()||pointer != nullptr){
+		if(pointer != nullptr){
+			visit(pointer);
+			if(pointer -> rightChild !=  nullptr)
+				nodeStack.push(pointer->rightChild);
+			pointer = pointer->leftChild;
+		}
+		else{
+			pointer = nodeStack.top();
+			nodeStack.pop();
+		}
+	}
+}
+
+template<class T>
+void BinaryTree<T>::inOrder(BinaryTreeNode<T> * root){
+	using std::stack;
+	stack<BinaryTreeNode<T> * > nodeStack;
+	BinaryTreeNode<T> * pointer = root;
+	while(!nodeStack.empty()||pointer){
+		if(pointer){
+			nodeStack.push(pointer);
+			pointer = pointer -> leftChild;
+		}
+		else{
+			pointer = nodeStack.top();
+			visit(pointer);
+			pointer = pointer -> rightChild;
+			nodeStack.pop();
+		}
+	}
+}
+
+template<class T>
+void BinaryTree<T>::postOrder(BinaryTreeNode<T> * root){
+	using std::stack;
+	stack<BinaryTreeNode<T> * > nodeStack;
+	BinaryTreeNode<T> * pointer = root;
+	BinaryTreeNode<T> * pre = root;
+	while(pointer != nullptr){
+		while(pointer -> leftChild != nullptr){
+			nodeStack.push(pointer);
+			pointer = pointer -> leftChild;
+		}
+		while(pointer != nullptr && (pointer -> rightChild == nullptr ||
+                                     pre == pointer->rightChild)){
+			visit(pointer);
+			pre = pointer;
+			pointer = nodeStack.top();
+			nodeStack.pop();
+		}
+		nodeStack.push(pointer);
+		pointer = pointer -> rightChild;
+	}
+}
+
+template<class T>
+void BinaryTree<T>::levelOrder(BinaryTreeNode<T> * root){
+	using std::queue;
+	queue<BinaryTreeNode<T> *>nodeQueue;
+	BinaryTreeNode<T> * pointer = root;
+	if(pointer)
+		nodeQueue.push(pointer);
+	while(!nodeQueue.empty()){
+		pointer = nodeQueue.front();
+		visit(pointer);
+		nodeQueue.pop();
+		if(pointer->leftChild)	nodeQueue.push(pointer->leftChild);
+		if(pointer->rightChild)	nodeQueue.push(pointer->rightChild);
+	}
+}
