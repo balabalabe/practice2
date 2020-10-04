@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        string::iterator left=s.begin();
+        string::iterator right=s.end()-1;
+
+        while(left<right){
+            while(!(*left>='0'&&*left<='9'||*left>='a'&&*left<='z'||*left>='A'&&*left<='Z')){
+                left++;
+            }
+            while(!(*right>='0'&&*right<='9'||*right>='a'&&*right<='z'||*right>='A'&&*right<='Z')){
+                right--;
+            }
+            if(tolower(*left)==tolower(*right)){
+                left++;
+                right--;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+};
