@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<vector<string>> result;
+    vector<string> path;
+
+public:
+    void backtrack(string s,int index,vector<string> path){
+        while(index>=s.size()){
+            result.push_back(path);
+            return;
+        }
+
+        for(int i=index;i<s.size();i++){
+            if(cheack(s,index,i)){//判断是否是回文串
+                path.push_back(s.substr(index,i-index+1));
+                
+            }
+            else{
+                continue;
+            }
+            backtrack(s,i+1,path);//递归
+            path.pop_back();
+        }
+    }
+
+    bool cheack(string s,int left,int right){
+        int i=left;
+        int j=right;
+        while(i<j){
+            if(s[i]!=s[j]){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+public:
+    vector<vector<string>> partition(string s) {
+        backtrack(s,0,path);
+        return result;
+    }
+
+};
