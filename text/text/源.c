@@ -8,6 +8,7 @@
 //	else
 //		return 2 * HanNuo(x - 1) + 1;
 //}
+
 //int main(void){
 //	int i = 3;
 //	printf("%d", HanNuo(i));
