@@ -1,7 +1,7 @@
 class Solution {
 private:
     vector<vector<string>> result;
-    vector<string> path; // 放已经回文的子串
+    vector<string> path; // 存放已经回文的子串
     // startIndex: 搜索的起始位置
     void backtracking (const string& s, int startIndex, vector<string> path) {
         // 如果起始位置已经大于s的大小，说明已经找到了一组分割方案了
