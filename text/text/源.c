@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+
 //int HanNuo(int x){
 //	if (x <= 1){
 //		return 1;
@@ -14,7 +15,7 @@
 //	return 0;
 //}
 
-//int main(void){//��ʽת��
+//int main(void){//ÒþÊ½×ª»»
 //	char a = -1;
 //	signed char b = -1;
 //	unsigned char c = -1;
