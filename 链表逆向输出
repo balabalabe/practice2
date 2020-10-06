@@ -1,0 +1,57 @@
+//方法一，递归
+class Solution{
+public:
+    void print_back(ListNode* head,vector<int> &v){
+        if(head==NULL){
+            return ;
+        }
+        print_back(head->next,v);//递归
+        
+        v.push_back(head->val);//递归出栈时，从后往前将元素插入数组v中
+    }
+    vector<int> printListFromTailToHead(ListNode* head){
+        vector<int> v;
+        print_back(head,v);
+        vector<int>::iterator it;
+        for(it=v.begin();it!=v.end();v++){
+            cout<<*it<<"  "<<endl;
+        }
+        return v;
+    }
+};
+
+//方法二，使用逆置函数reverse()
+class Solution{
+public:
+    vector<int> printListFromTailToHead(ListNode* head) {
+        vector<int> result;
+        while(head!=NULL) {
+            result.push_back(head->val);
+            head=head->next;
+        }
+        reverse(result.begin(),result.end());
+        return result;
+    }
+};
+
+//方法三，利用stack后进先出的特性，进行压栈和出栈后就能得到从尾到头的顺序了
+class Solution{
+public:
+    void printListFromTailToHead(ListNode *head) {
+        if(head==NULL) {
+            return head;
+        } 
+        std::stack <ListNode*> s;
+        while(p!=NULL){
+            s.push(p);   //把链表插入栈中
+            p=p->next;
+        }
+        ListNode *p;
+        while(!s.empty()) {
+            p=s.top();          // 获取到栈顶的结点(指针类型)
+            cout<<p->val<<" ";  // printf("%d\t",p->val);
+            s.pop();            // 出栈，删除栈顶元素
+        }
+    }
+
+};
