@@ -1,0 +1,73 @@
+//方法一，头插法
+class Solution{
+public:
+    ListNode* Merge(ListNode* pHead1,ListNode* pHead2){
+        if(pHead1==nullptr){//如果List1为空，那就没法合并了，直接返回List2即可
+            return pHead2;
+        }
+        if(pHead2==nullptr){//如果List2为空，返回List1，两个链表都为空的情况返回List1也没问题，因为都是nullptr
+            return pHead1;
+        }
+        ListNode* new_head=nullptr;
+        ListNode* new_tail=nullptr;
+        while(pHead1&&pHead2){
+            ListNode* min=pHead1->val > pHead2->val ? pHead1 : pHead2;//取两个链表中最小的结点
+            
+            if(min==pHead1){
+                pHead1=pHead1->next;//如果取的是pHead1则头结点指向下一个(相当于该结点删除了)
+            }
+            else{
+                pHead2=pHead2->next;//删除pHead2
+            }
+            
+            if(new_head==nullptr){//如果是第一次插入，头指针和尾指针都指向一个元素
+                new_head=min;
+                new_tail=min;
+            }
+            else{//尾插
+                new_tail=new_tail->next;
+                new_tail=min;//尾指针指向链表的最后一个元素，即新插入的元素
+            }
+        }
+        
+        if(pHead1==nullptr){//如果List1先走完了，那么直接把新链表和List2剩下的连接起来即可
+            new_tail->next=pHead2;
+        }
+        else if(pHead2==nullptr){//同理，List2走完了，和List1连起来
+            new_tail->next=pHead1;
+        }
+        else{//如果两个链表都为空，说明两个链表的长度刚好合并完成了，什么操作都不需要直接返回即可
+            return new_head;
+        }
+        return new_head;
+    }
+};
+
+//方法二，递归
+class Solution{
+public:
+    ListNode* Merge(ListNode* pHead1,ListNode* pHead2){
+        if(pHead1==nullptr){//如果List1为空，那就没法合并了，直接返回List2即可
+            return pHead2;
+        }
+        if(pHead2==nullptr){//如果List2为空，返回List1，两个链表都为空的情况返回List1也没问题，因为都是nullptr
+            return pHead1;
+        }
+        ListNode* new_head=nullptr;
+        
+        if(pHead1->val < pHead2->val){//比较phead1和phead2把较小那个尾插到新链表中
+            new_head=pHead1;
+            pHead1=pHead1->next;
+        }
+        else{
+            new_head=pHead2;
+            pHead2=pHead2->next;
+        }
+        
+        //**当两个链表中的一个为空时，将另一个链表剩下的部分直接链入新链表，直接返回pHead1或pHead2即可**
+        //(因为pHead1或pHead2的后续结点并没有打乱或删除，可以直接next找到)
+        new_head->next=Merge(pHead1,pHead2);//新链表的下一个结点也以同样的方式递归进行插入
+
+        return new_head;
+    }
+};
