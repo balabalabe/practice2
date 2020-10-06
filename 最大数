@@ -1,0 +1,75 @@
+#define     MAX_CHARE   400
+#define     MAX(a, b)   ((a) > (b) ? (a) : (b))
+
+//自定义比较函数，按照比较原则比较两个数字的大小
+int SelfCompare(const void* a, const void* b){
+    int     iValueA     = *((int*)a);
+    int     iValueB     = *((int*)b);
+    char    pBufAB[21]  = {0};
+    char    pBufBA[21]  = {0};
+
+    sprintf(pBufAB, "%d%d", iValueA, iValueB);
+    sprintf(pBufBA, "%d%d", iValueB, iValueA);
+
+    if(atol(pBufAB) < atol(pBufBA))
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+//将数组转换为字符串
+int SelfNumsToChars(char* pRet, int* nums, int numsSize){
+    int     i       = 0;
+    int     iTmp    = 0;
+
+    //1,将数组中的整数倒序拆分到字符串中
+    for(i = 0; i < numsSize; i++)
+    {
+        iTmp += sprintf(pRet + iTmp, "%d", nums[i]);
+    }
+
+    return 0;
+}
+
+//全0判断
+bool JudgeNumsIsZero(int* nums, int numsSize)
+{
+    int     i   = 0;
+    
+    for(i = 0; i < numsSize; i++)
+    {
+        if(0 != nums[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+char * largestNumber(int* nums, int numsSize){
+    char*   pRet    = NULL;
+
+    if((NULL == nums) || (0 == numsSize)) return NULL;
+
+    pRet = (char*)malloc(sizeof(char) * MAX_CHARE);
+    if(NULL == pRet) return NULL;
+    memset(pRet, 0x00, sizeof(char) * MAX_CHARE);
+
+    //1,全零判断
+    if(true == JudgeNumsIsZero(nums, numsSize))
+    {
+        numsSize = 1;
+    }
+
+    //2,快速排序数组
+    qsort(nums, numsSize, sizeof(int), SelfCompare);
+
+    //3,将数组转换为字符串
+    SelfNumsToChars(pRet, nums, numsSize);
+
+    return pRet;
+}
