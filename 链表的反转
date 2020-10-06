@@ -1,0 +1,23 @@
+//方法一，用三个指针，边遍历边反转
+class Solution{
+public:
+    ListNode* ReverseList(ListNode* pHead){
+        if(pHead==nullptr || pHead->next==nullptr){//只有一个结点或没有结点的情况直接返回头结点
+            return pHead;
+        }
+        ListNode* first=pHead;
+        ListNode* second=pHead->next;
+        ListNode* third=second->next;//当只有两个节点时，这个节点是有可能指向空的
+        
+        while(third){//因为third走在最前面，所以只要third不指向nullptr就没有到链表的末尾
+            second->next=first;//反转，改变链表方向
+            first=second;//三个指针整体走向下一位
+            second=third;
+            third=third->next;//注意，这里是先反转再后移，最后一个结点肯定是没法反转的，因此退出循环后还要进行一步操作
+        }
+        second->next=first;//当链表走完，或者只有两个结点时，还剩最后一个结点没有反转
+        pHead->next=nullptr;//原头指针现在变成了链表的末尾，应该指向nullptr
+        pHead=second;//现在second成为了第一个结点，所以头指针指向second
+        return pHead;
+    }
+};
