@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool IsPalindrome(string &s, int *start, int *end){
+    int i = 0;
+    int j = s.size() - 1;
+    bool result = true;
+    while(i <= j){
+        if(s[i] != s[j]){
+            result = false;//头和尾指针指向元素的值不相等，返回false
+            break;
+        }
+    i++;
+    j--;
+    }
+    if(start != nullptr){
+        *start = i;//更新头指针位置
+    }
+    if(end != nullptr){
+        *end = j;//更新尾指针位置
+    }
+    return result;
+}
+
+int main()
+{
+    int num = 0;
+    cin >> num;
+    while(num){
+        string s;
+        cin >> s;
+        int start = 0;
+        int end = s.size() - 1;
+        if(IsPalindrome(s, &start, &end)){
+            cout << -1 << endl; //已经是回文了
+        }
+        else{
+            s.erase(end, 1);//假设删掉了尾指针上的字符
+            if(IsPalindrome(s, nullptr, nullptr)){//如果再次检查发现变成回文了，说明多余字符在尾指针上
+                cout << end << endl;//返回多余字符的下标
+            }
+            else{//否则多余字符就在头指针上
+                cout << start << endl;//返回多余字符的下标
+            }
+        }
+        num--;
+    }
+}
