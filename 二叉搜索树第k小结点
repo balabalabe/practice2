@@ -1,0 +1,31 @@
+class Solution {
+public:
+    TreeNode* KthNode(TreeNode* pRoot, int k)
+    {
+        //我们认为，第k个，从k开始
+        if(pRoot == nullptr || k <= 0){
+            return nullptr;
+        }
+        stack<TreeNode*> st;
+        TreeNode *node = pRoot;
+        do{
+            while(node != nullptr){ //将左子树全部入栈
+                st.push(node);
+                node = node->left;
+            }
+            if(!st.empty()){
+                node = st.top();
+                st.pop();
+                k--;
+                if(k == 0){
+                    return node; //找到了该节点
+                }
+                node = node->right;//不要遗漏了左下角结点的右兄弟的左子树，第二小很可能就被包含在其中
+            }
+        }while(node != nullptr || !st.empty());
+        //node有可能为空，但是只要stack不为空，就要继续pop求下一个。有没有可能st为空？
+        //有可能，这个时候就要检测node，如果node不为空，就要整体检测右子树
+        //走到这里，就说明没有找到
+        return nullptr;
+    }
+};
