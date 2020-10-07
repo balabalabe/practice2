@@ -1,0 +1,24 @@
+#include<iostream>
+using namespace std;
+
+typedef class X {
+public:
+	X() {
+		cout << "a";
+	}
+	X(const X& x) {
+		cout << "b";
+	}
+	const X& operator = (const X& x) {
+		cout << "c";
+		return *this;
+	}
+};
+
+int main() {
+	X x;
+	X y(x);
+	X z = y;
+	z = x;
+	return 0;
+}
