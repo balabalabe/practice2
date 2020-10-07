@@ -1,0 +1,23 @@
+class A{
+public:
+	void func(float a){
+		cout << "A" << endl;
+	}
+};
+class B :public A{
+public:
+	void func(int b){//class B中的同名函数func对父类A中的func构成重定义(隐藏)，所以子类想访问父类的func需要用作用域解析符::
+		cout << "B" << endl;
+	}
+};
+int main(){
+	A *a = new A;
+	B *b = new B;
+	a = b;
+	a->func(1);	//结果为A，因为父类无法调用子类的函数
+	a->func(1.11);	//结果为A
+	b->func(1);	//结果为B
+	b->func(1.11);	//结果为B，因为子类对父类的同名函数构成隐藏，想调用父类的func需要作用域解析符
+ 	b->A::func(1.11);//结果为A，因为已经显示用作用域解析符指定调用的是父类的func
+	return 0;
+}
