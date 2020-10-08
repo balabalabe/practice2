@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+class Student
+{
+private:
+    int num;
+    char* name;
+public:
+    Student() {
+        name = new char(20);
+        cout << "构造函数" << endl;
+    }
+    ~Student() {
+        cout << "析构函数" << (int)name << endl;
+        delete name;
+        name = NULL;
+    }
+};
+
+int main() {
+    Student s1;
+    Student s2(s1);
+    return 0;
+}
