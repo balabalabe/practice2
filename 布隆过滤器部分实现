@@ -1,0 +1,111 @@
+#include<iostream>
+#include<string>
+#include<math.h>
+#include<stdio.h>
+#include"bloomfilter.h"
+#include<fstream>
+double lg2(double n)
+{
+	return log(n)/log(2);
+}
+ 
+ 
+using namespace std;
+ 
+int Bloomfilter::hashtable_init()
+{
+	hashtable.push_back(*PJWHash);
+	hashtable.push_back(*JSHash);
+	hashtable.push_back(*RSHash);
+	hashtable.push_back(*SDBMHash);
+	hashtable.push_back(*APHash);
+	hashtable.push_back(*DJBHash);
+	hashtable.push_back(*BKDRHash);
+	hashtable.push_back(*ELFHash);
+	return hashtable.size();
+ 
+}
+ 
+ 
+ 
+Bloomfilter::Bloomfilter(double err_rate,int num,char* path)
+{
+	mypath=path;
+	samplenum=num;
+	bitpoollen=-((samplenum*log(err_rate))/(log(2)*log(2)));
+	hashfuncnum=0.7*(bitpoollen/samplenum);
+	len=bitpoollen/32+1;
+	bitpool=new int[len];
+}
+int Bloomfilter::hashnum()
+{
+ 
+	return hashfuncnum;
+}
+int Bloomfilter::sizeofpool()
+{
+ 
+	return len;
+}
+ 
+void Bloomfilter::filter_init()
+{
+	hashtable_init();
+	if(hashfuncnum>hashtable.size())
+	{
+		cout<<"哈系表中的函数不足,请添加"<<endl;
+		exit(0);
+	}
+	listinit();				
+}
+ 
+bool Bloomfilter::is_contain(const char* str)
+{
+	int  hashval;
+	for(int i=0;i!=hashfuncnum;i++)
+	{
+		hashval=hashtable[i](str);
+		//cout<<hashval<<" ";   //test
+		hashval=hashval%(len*32); //len*32为bitpool的总位数
+		if(bitpool[hashval/32]&(0x1<<(hashval%32)))
+			continue;
+		else
+			return false;
+ 
+	}
+	return true;
+} 
+void Bloomfilter::listinit()
+{
+        FILE* fp;
+        char* buf;
+        size_t length=0;
+	fp=fopen(mypath,"r+");
+	int hashval;
+	char* p;
+	while(getline(&buf,&length,fp)!=EOF)
+	{
+		
+		p=buf;
+		while(*p!='\n')
+		{
+			p++;
+		}
+		*p='\0';
+ 
+		for(int i=0;i!=hashfuncnum;i++)
+		{
+			
+			hashval=hashtable[i](buf);		
+		//	cout<<hashval<<" ";	//test
+			hashval=hashval%(len*32);
+			bitpool[hashval/32]|=(0x1<<(hashval%32));
+		}
+	}
+	fclose(fp);
+}
+ 
+Bloomfilter::~Bloomfilter()
+{
+	delete  []bitpool;
+}
