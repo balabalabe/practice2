@@ -1,0 +1,60 @@
+void Word_Insert(string key, TreeNode* tree, int d) {//key是要插入的单词，tree是传入的根结点，d是单词的下标
+	if (tree == NULL) { //若这层没有该节点则生成新节点
+        tree = new TreeNode();
+        if (tree == NULL) {
+            cout << "新节点申请失败!" << endl;
+            return;
+        }
+        tree->color = Black;//核心就是这里，字典树的结点不是插入结点的过程，而是结点“点亮”的过程，颜色black说明这个字母存在
+        
+        for (int i = 0; i < R; i++){ //将新申请的结点的孩子全部置为NULL
+            tree->Next[i] = NULL;
+        }
+   }
+   
+   if (d == key.length()) {// 若检索到最后一位，则改变节点颜色
+       tree->color = Red;
+       return;
+   }
+    
+   char c = key[d];
+   Word_Insert(key, tree->Next[c], d + 1);// 检索下一层节点
+}
+
+TreeNode* Word_Find(string key, TreeNode* tree, int d) const {//key是要查找的单词，tree是传入的根结点，d是单词的下标
+	if (tree == NULL){ //节点不存在则返回空
+        return NULL;
+    }
+		
+	if (d == key.length()){ //若检索到最后一个字符，返回该节点
+        return tree;
+    }
+		
+	char c = key[d];
+	return Word_Find(key, tree->Next[c], d + 1);//检索下一层
+}
+
+void Word_Delete(string key, TreeNode* tree, int d) {
+    if (tree == NULL){ //若为空树则直接返回
+        return;
+    }
+    if (d == key.length()){ //检索到指定单词的最后一个字母，将其颜色变黑
+        tree->color = Black;
+    }
+    if (d != key.length()) { //如果没有走到最后一个结点，检索下一层节点
+        char c = key[d];
+        Word_Delete(key, tree->Next[c], d + 1);
+    }
+    
+    if (tree->color == Red){ //红节点直接返回(删除的过程中可能存在其它单词的红结点)
+        return;
+    }
+    for (int i = 0; i < R; i++){ //若为黑节点，且下一层没有节点则删除该节点
+        if (tree->Next[i] != NULL){ 
+            return;
+        }
+    }
+    
+    delete tree;
+    tree = NULL;
+}
