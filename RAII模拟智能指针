@@ -1,0 +1,33 @@
+template<class T>
+class SmartPtr {//RAII特性
+public:
+    SmartPtr(T* ptr = nullptr): _ptr(ptr){}
+    ~SmartPtr(){
+        if(_ptr)
+            delete _ptr;
+    }
+    T& operator*() {return *_ptr;}
+    T* operator->() {return _ptr;}
+private:
+    T* _ptr;
+};
+struct Date{
+    int _year;
+    int _month;
+    int _day;
+};
+int main(){
+    SmartPtr<int> sp(new int);//在智能指针中创建的指针和引用会自动销毁,也可以写成下面形式
+    //int tmp = (int*)malloc(sizeof(int))
+    //SmartPtr<int> sp(tmp);将tmp指针委托给智能指针管理
+    *sp = 10
+    cout<<*sp<<endl;
+    
+    SmartPtr<int> sparray(new Date);
+    // 需要注意的是这里应该是sparray.operator->()->_year = 2018;
+    // 本来应该是sparray->->_year这里语法上为了可读性，省略了一个->
+    sparray->_year = 2018;
+    sparray->_month = 1;
+    sparray->_day = 1;
+    return 0;
+}
