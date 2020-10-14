@@ -1,0 +1,133 @@
+#include <iostream>
+#include <cassert>
+using namespace std;
+
+template <class T>
+class Vector{
+public:
+    typedef T* iterator;
+    
+    Vector():_start(nullptr), _finish(nullptr), _end_of_storage(nullptr){}
+    
+    ~Vector(){
+        if (_start){
+            delete[]_start;
+            _start = _finish = _end_of_storage = nullptr;
+        }
+    }
+    
+    Vector(const Vector<T>& v) {
+        _start = new T[v.size()];
+        memcpy(_start, v._start,sizeof(T)*v.size());
+        _finish = _start + v.size();
+        _end_of_storage = _start + v.size();
+    }
+    
+    void Swap(Vector<T>& v){
+        swap(_start, v._start);
+        swap(_finish, v._finish);
+        swap(_end_of_storage, v._end_of_storage);
+    }
+    
+    Vector<T>& operator=(Vector<T> v){
+        Swap(v);
+        return *this;
+    }
+    
+    void resize(size_t n, const T& val = T()){
+        if (n < size()){
+            _finish = _start + n;
+        }
+        if (n > capacity()){
+            reverse(n);
+        }
+        while (_finish != _start + n){
+            *_finish = val;
+            ++_finish;
+        }
+    }
+    
+    void reverse(size_t n){
+        if (n > capacity()){
+            T * tmp = new T[n];
+            int sz = size();
+            //拷贝数据
+            memcpy(tmp,_start,sizeof(T)*size());
+            delete[] _start;
+            _start = tmp;
+            _finish = _start + sz;
+            _end_of_storage = _start + n;
+        }
+    }
+    
+    void push_back(const T& val){
+        if (_finish == _end_of_storage){
+            size_t newcapacity = capacity() == 0 ? 2 : 2 * capacity();
+            reverse(newcapacity);
+        }
+        *_finish = val;
+        ++_finish;
+    }
+    
+    void pop_back(){
+        assert(_finish > _start);
+        --finish;
+    }
+    
+    void insert(iterator pos, const T& x){
+        if (_finish == _end_of_storage){
+            //这里是先选出pos在原来空间上的绝对位置是多少
+            size_t n = pos - _start;
+            size_t newcapacity = capacity() == 0 ? 2 : 2 * capacity();
+            reverse(newcapacity);
+            //在新空间上的绝对位置
+            pos = _start + n;
+        }
+        iterator end = _finish - 1;
+        while (end >= pos){
+            *(end + 1) = *end;
+            --end;
+        }
+        *pos = x;
+        ++_finish;
+    }
+    
+    void erase(iterator pos){//删除下标为pos的元素
+        assert(pos >= _start &&  pos < _finish);
+        iterator begin = pos + 1;
+        while (begin < _finish){
+            *(begin - 1) = *begin;//直接把pos的后续元素全部往前搬一位，覆盖掉pos上的元素
+            begin++;
+        }
+        --_finish;
+    }
+    
+    size_t size() const{
+        return _finish - _start;
+    }
+    
+    size_t capacity() const{
+        return _end_of_storage - _start;
+    }
+    
+    T& operator[](size_t pos) const{
+        return _start[pos];
+    }
+    
+    const T& operator[](size_t pos) const {
+        return _start[pos];
+    }
+    
+    iterator begin(){
+        return _start;
+    }
+    
+    iterator end(){
+        return _finish;
+    }
+
+private:
+    iterator _start;
+    iterator _finish;
+    iterator _end_of_storage;
+};
