@@ -1,0 +1,38 @@
+class Solution{
+public:
+    bool IsSameFromBegin(TreeNode* tree,TreeNode* sontree){
+        if(sontree==nullptr){//说明子树已经比较完了，符合条件
+            return true;
+        }
+        if(tree==nullptr){//子树还没比较完，二叉树就已经空了，说明不是该树的子树
+            return false;
+        }
+        if(tree->val != sontree->val){//结点不同，说明不是该树的子树
+            return false;
+        }
+        
+        //这个递归顺序比较像前序遍历，先检查根结点是否相等，然后检查左子树是否相等，再检查右子树是否相等。走到叶子结点出栈
+        return IsSameFromBegin(tree->left,sontree->left) && IsSameFromBegin(tree->right,sontree->right);
+    }
+    
+    bool HasSubtree(TreeNode* pRoot1,TreeNode* pRoot2){//pRoot2是pRoot1的子树
+        if(pRoot1==nullptr || pRoot2==nullptr){
+            return false;
+        }
+        bool result=false;
+        
+        if(pRoot1->val==pRoot2->val){//如果两个结点相同，则检查其左右子树是否也相同
+            result=IsSameFromBegin(pRoot1,pRoot2);//如果pRoot2是pRoot1的子树，那么会返回一个true给result
+        }
+        
+        //如果pRoot2是pRoot1的子树，那么pRoot2的根结点肯定与pRoot1中某个结点相等，下面是遍历pRoot1来找出相等的结点，类似前序遍历
+        if(result==false){
+            result=HasSubtree(pRoot1->left,pRoot2);//如果两颗树的结点不相等，进入pRoot1的左孩子进行比较
+        }
+        if(result==false){
+            result=HasSubtree(pRoot1->right,pRoot2);//同理，进入右孩子进行比较
+        }
+        
+        return result;
+    }
+};
