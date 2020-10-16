@@ -1,0 +1,23 @@
+class Solution{
+public:
+    vector<int> PrintFromTopToBottom(TreeNode* root){//返回一个数组
+        if(root==nullptr){
+            return root;
+        }
+        vector<int> v;
+        queue<TreeNode*> q;//层序遍历用队列，先进先出
+        q.push(root);//将根结点插入队列中
+        while(!q.empty()){
+            TreeNode* father=q.front();//从二叉树中取出一个结点
+            q.pop();//删除根结点
+            v.push_back(father->val);//结点尾插到数组中
+            if(father->left){
+                q.push(father->left);//如果该节点有左子树，则把左孩子插入队列
+            }
+            if(father->right){
+                q.push(father->right);//如果该节点有右子树，则把右边孩子插入队列
+            }
+        }
+        return v;
+    }    
+};
