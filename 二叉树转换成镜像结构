@@ -1,0 +1,21 @@
+class Solution{
+public:
+    void Mirror(TreeNode* pRoot){
+        if(pRoot==nullptr){
+            return ;
+        }
+        //(自顶向下交换)：先交换根结点的左右子树，然后再进入左子树交换，到了叶子结点后出栈，进入右子树交换
+        TreeNode* temp=pRoot->left;
+        pRoot->left=pRoot->right;
+        pRoot->right=temp;
+        Mirror(pRoot->left);
+        Mirror(pRoot->right);
+        
+        /*自底向上递归交换*/
+        //Mirror(pRoot->left);
+        //Mirror(pRoot->right);
+        //TreeNode* temp=pRoot->left;
+        //pRoot->left=pRoot->right;
+        //pRoot->right=temp;
+    }
+};
