@@ -1,0 +1,20 @@
+struct Point
+{
+    int x;
+    int y;
+};
+
+// a[n]为从输入中读取得到的点集数组
+void solution(Point* a, int n)
+{
+    std::sort(a, a + n, [](Point& p1, Point& p2) { return p1.x < p2.x; });//按x坐标从小到大排序
+    int ymax = INT_MIN;  // 记录从右往左遍历过程中y的最大值
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (a[i].y > ymax)  // 此时a[i].y大于它右边所有点的最大y坐标, a[i]为最大点
+        {
+            printf("%d %d\n", a[i].x, a[i].y);
+            ymax = a[i].y;  // 更新最大y坐标
+        }
+    }
+}
