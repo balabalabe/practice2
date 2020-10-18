@@ -1,0 +1,22 @@
+class Solution {
+public:
+   int balancedStringSplit(string s) {
+       int count = 0;
+       int balance = 0;
+       for(int i = 0; i < s.size(); i++){
+           if(s[i] == 'L'){
+               balance--;
+           }
+           if(s[i] == 'R'){
+               balance++;
+           }
+           if(balance == 0){
+               count++;
+           }
+      }
+       return count;
+  }
+};
+
+分析：题目要求得到尽可能多的平衡字符串，那么可以根据贪心策略：不要有嵌套的平衡，只要字符串一满足平衡的条件，立即分割，使字符串尽可能短，字符串越短分割的次数就越多。
+可以采用计数器的方法，一个L的计数器一个R的计数器，一满足条件马上就分割并清空计数器。在计数器方面可以优化成一个计数器，即一个计数器遇到L时-1，遇到R时+1，当计数器为0时平衡，分割次数+1
