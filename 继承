@@ -46,3 +46,31 @@ void main() {
 	A* a2 = &b; //多态的另一种实例化方法
 	cout << a2->getNum() << endl;
 }
+
+class Base {
+public:
+	virtual int fun(int i) { //多态函数
+		return i + 2;
+	}
+	int fun(char i[10]) { //静态函数
+		return sizeof(i) + 5;
+	}
+};
+
+class Derived :public Base {
+	int fun(int i) { //子类中的fun对父类中的同名函数构成覆盖
+		return i * 4;
+	}
+	virtual int fun(char i[20]) { //子类写成虚函数是不和父类构成多态的
+		return sizeof(i) + 10;
+	}
+};
+
+int main() {
+	Derived d;
+	Base* b = &d;//b的指针类型是Base*，指向子类Derived d的地址
+	char i[20];
+	cout << b->fun(10) <<" "<< b->fun(i);//输出40  9
+}
+//因为b->fun(10)构成多态，所以根据地址选择子类中的fun(i)
+//因为b->fun(i)不构成多态，所以根据指针类型选择父类中的fun(char i[10])
