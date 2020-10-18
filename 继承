@@ -19,3 +19,30 @@ int main() {
 	C c;
 	cout << sizeof(a) << " " << sizeof(b) << " " << sizeof(c) << endl;//输出4 4 8
 }
+
+
+class A {
+public:
+	virtual int getNum() {
+		return 42;
+	}
+};
+
+class B:public A {
+public:
+	virtual int getNum() {
+		return num;
+	}
+
+private:
+	int num=10;
+};
+
+void main() {
+	A* a1 = new B; //多态的一种实例化方法
+	cout<<a1->getNum()<<endl;
+
+	B b;
+	A* a2 = &b; //多态的另一种实例化方法
+	cout << a2->getNum() << endl;
+}
