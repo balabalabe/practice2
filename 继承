@@ -1,0 +1,21 @@
+class A{
+public:
+	virtual ~A() {}//大小为4
+};
+
+class B {
+public:
+	virtual ~B() {}//大小为4
+};
+
+class C:public A,public B { //C继承了A和B的虚函数，所以大小为8
+public:
+	virtual ~C() {}
+};
+
+int main() {
+	A a;
+	B b;
+	C c;
+	cout << sizeof(a) << " " << sizeof(b) << " " << sizeof(c) << endl;//输出4 4 8
+}
