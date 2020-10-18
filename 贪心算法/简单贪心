@@ -1,0 +1,17 @@
+void swap(int* array, int i, int j)//选择排序是最基础的贪心，每次选最小的元素放在前面
+{
+    int tmp = array[i];
+    array[i] = array[j];
+    array[j] = tmp;
+}
+
+void selectSort(int* arr, int n){
+   for(int i = 0; i < n; ++i){ //i: 未排序数据的起始位置
+       int minIdx = i;
+       for(int j = i + 1; j < n; ++j){ //从所有未排序的数据中找最小值的索引
+           if(arr[j] < arr[minIdx])
+              minIdx = j;
+      }
+       swap(arr, minIdx, i);
+  }
+}
