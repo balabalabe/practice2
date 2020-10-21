@@ -1,0 +1,17 @@
+class A{}; //sizeof(A)=1
+
+class B{ //sizeof(B)=1
+public:
+    B() {}
+    ~B() {}
+};
+
+class C{ //sizeof(C)=4
+public:
+    C() {}
+    virtual ~C() {}
+};
+
+class G :public A, public C {}; //sizeof(G)=4
+class H :public A, public B, public C {}; //sizeof(H)=8
+class I :public A, public C, public B {}; //sizeof(I)=8
