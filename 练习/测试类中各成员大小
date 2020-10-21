@@ -32,3 +32,17 @@ class F { //sizeof(F)=8
     int a; //占4个字节
     virtual void func() {} //指向虚函数表的指针，占4个字节
 };
+
+class A1{};
+class A2{};
+class A3{};
+class A4{};
+class G :public A{}                                         //sizeof(G)=1
+class G :public A, public B{}                               //sizeof(G)=1
+class G :public A, public B, public A1{}                    //sizeof(G)=2
+class G :public A, public B ,public A1, public A2{}         //sizeof(G)=3
+
+class H :public A, public C, public A1, public A2, public A3, public A4, public B {}; //sizeof(H)=12 
+//(4+1+1+1+1+1内存对齐得到12)
+
+class H :public A, public C, public A1, public A2, public A3,  public B {}; //sizeof(H)=8  (刚好4+4=8)
