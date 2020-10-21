@@ -15,3 +15,20 @@ public:
 class G :public A, public C {}; //sizeof(G)=4
 class H :public A, public B, public C {}; //sizeof(H)=8
 class I :public A, public C, public B {}; //sizeof(I)=8
+
+
+class D { //sizeof(D)=1
+    char ch;
+    void func() {} //普通成员函数为各实例公有，不归入sizeof的统计
+};
+
+class E { //sizeof(E)=8
+    char ch1; //占用1字节
+    char ch2; //占用1字节
+    virtual void func() {} //指向虚函数表的指针，占4个字节
+};
+
+class F { //sizeof(F)=8
+    int a; //占4个字节
+    virtual void func() {} //指向虚函数表的指针，占4个字节
+};
