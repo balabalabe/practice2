@@ -1,0 +1,32 @@
+//动态规划求解
+int max_to_cut(int length){ //length代表绳子的长度
+	//1.考虑特殊情况下的最优解
+	if (length < 2) return 0;
+	if (length == 2) return 1;
+	if (length == 3) return 3;
+ 
+	int* products = new int [length + 1]; //用于纪录所有子问题的最优解
+ 
+	//2.设置已知小问题的最优解
+	products[1] = 1;
+	products[2] = 2;
+	products[3] = 3;
+ 
+	//3.迭代法进行动态规划
+	for (int i = 4;i <= length;i++){
+		int max = i;
+		//遍历每一种可行的切割方案，选出最优
+		for (int j = 1;j <= i/2; j++){
+			int product = products[j] * products[i-j];
+			if (max < product){
+				max = product;
+			}
+		}
+		//记录该问题的最优解
+		products[i] = max; 
+	}
+	delete [] products;
+ 
+	//4.返回最优解
+	return products[length];
+}
