@@ -1,0 +1,6 @@
+for(int i = 1; i <= N; ++i){
+    for(int j = w[i]; j <= V; ++j){ //这里就是完全背包和0-1背包的区别，完全背包是从前往后递推
+        dp[j] = max(dp[j], dp[j-w[i]] + v[i]);
+    }
+}
+cout << dp[V] << endl;
