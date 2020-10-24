@@ -1,0 +1,20 @@
+//贪婪算法求解
+int new_max_to_cut(int length){
+	//1.考虑特殊情况下的最优解
+	if (length < 2) return 0;
+	if (length == 2) return 1;
+	if (length == 3) return 3;
+ 
+	//2.尽可能剪长度为3的绳子
+	int n_length3 = length/3;
+ 
+	//3.剩下长度为4的时候，不必要在剪断了
+	if (length % 3 == 1){
+		n_length3 -= 1;
+		return (pow(3, n_length3) * pow(2, 2));	//返回最优解，长度为4的部分剪短成2+2
+	}
+ 
+	//4.返回最优解
+	int n_length2 = length - n_length3*3;
+	return (pow(3, n_length3) * n_length2);
+}
