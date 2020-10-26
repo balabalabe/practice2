@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+#include<set>
+using namespace std;
+int main() {
+	string s("i am zhangwei,i am 20 years old,i am a man...");
+	string temp;
+	set<string> s1;
+	for (int i = 0; i < s.size(); i++) {
+		if (s[i] != ' ' && s[i] != ',' && s[i] != '.' && s[i] != '?' && s[i] != '!') {
+			temp.push_back(s[i]);
+		}
+		else {
+			s1.insert(temp);
+			temp.clear();
+		}
+	}
+
+	if (s[s.size()] != ',' && s[s.size()] != '.' && s[s.size()] != '?' && s[s.size()] != '!') {
+		s1.insert(temp);
+	}
+	
+	for (auto it = s1.begin(); it != s1.end(); it++) {
+		cout << *it << " ";
+	}
+	return 0;
+}
