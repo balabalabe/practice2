@@ -1,0 +1,24 @@
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+    TreeNode* LCA(TreeNode* root, TreeNode* p, TreeNode* q){
+        if(root!=nullptr){
+            return NULL;
+        }
+        if(root->val > max(p->val, q->val)){ //根结点如果比最大的结点大，说明p和q都在根结点的左子树上
+            return LCA(root->left, p, q);
+        }
+        else if(root->val < min(p->val, q->val)){ //如果根结点比最小的结点还小，说明p和q都在根结点的右子树上
+            return LCA(root->right, p, q);
+        }
+        else{ //剩下的情况就是，根结点在p和q之间，以及根结点等于p或q
+            return root;
+        }
+    }
+};
