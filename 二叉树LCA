@@ -1,0 +1,23 @@
+class Solution {
+public:
+    TreeNode* LCA(TreeNode* root, TreeNode* p, TreeNode* q) {
+       if (root==nullptr){
+           return ;
+       }
+       if (p == root || q == root){
+           return root;
+       }
+       TreeNode* left = LCA(root->left, p, q);
+       TreeNode* right = LCA(root->right, p , q);
+       if (left && right){
+           return root;
+       } 
+       if (right !=nullptr && left == nullptr){
+           return right;
+       }
+       if (left !=nullptr && right == nullptr){
+           return left;
+       }
+       return nullptr;
+    }
+};
