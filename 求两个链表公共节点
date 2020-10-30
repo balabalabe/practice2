@@ -1,0 +1,51 @@
+class Solution{
+public:
+    ListNode* GetListLength(ListNode* list,int &len){
+        if(list==nullptr){
+            return list;
+        }
+        ListNode *end=list;
+        while(list){//遍历链表
+            end=list;
+            list=list->next;
+            len++;//记录链表的节点数
+        }
+        return end;
+    }
+    ListNode* FindFirstCommonNode(ListNode* pHead1,ListNode* pHead2){
+        if(pHead1==nullptr || pHead2==nullptr){
+            return nullptr;
+        }
+        int length1=0;
+        int length2=0;
+        ListNode* end1=GetListLength(pHead1,length1);//获取链表长度并返回尾结点地址
+        ListNode* end2=GetListLength(pHead2,length2);
+        
+        if(end1!=end2){//如果尾结点的地址不相同，说明两个单链表根本就没有公共节点
+            return nullptr;
+        }
+        int step=abs(length1-length2);//abs(x)绝对值函数，返回x的绝对值
+        
+        if(length1>length2){//让较长的链表先走step个节点
+            while(step){
+                pHead1=pHead1->next;
+                step--;
+            }
+        }
+        else{
+            while(step){
+                pHead2=pHead2->next;
+                step--;
+            }
+        }
+        
+        while(pHead1 && pHead2){//当两个链表都不为空，找第一个公共节点
+            if(pHead1 == pHead2){
+                return pHead1;
+            }
+            pHead1=pHead1->next;
+            pHead2=pHead2->next;
+        }
+        return nullptr;
+    }
+};
