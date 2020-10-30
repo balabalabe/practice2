@@ -1,0 +1,64 @@
+//方法一，递归
+class Solution {
+public:
+    void TreeDepthHelper(TreeNode *pRoot, int depth, int &maxdepth){
+        if(pRoot == nullptr){
+            if(maxdepth < depth){
+                maxdepth = depth;
+            }
+            return;
+        }
+        TreeDepthHelper(pRoot->left, depth+1, maxdepth);
+        TreeDepthHelper(pRoot->right, depth+1, maxdepth);
+    }
+    
+    int TreeDepth(TreeNode* pRoot){
+        if(pRoot == nullptr){
+            return 0;
+        }
+        int depth = 0;
+        int maxdepth = 0;
+        TreeDepthHelper(pRoot, depth, maxdepth);
+        return maxdepth;
+    }
+};
+
+//方法二，公式
+class Solution {
+public:
+    int TreeDepth(TreeNode* pRoot){
+        if(pRoot == nullptr){
+            return 0;
+        }
+        return 1 + max(TreeDepth(pRoot->left), TreeDepth(pRoot->right));
+    }
+};
+
+//方法三，层序遍历
+class Solution {
+public:
+    int TreeDepth(TreeNode* pRoot){
+        if(pRoot == nullptr){
+            return 0;
+        }
+        //层序大法好
+        queue<TreeNode*> q;
+        q.push(pRoot);
+        int depth = 0;
+        while(!q.empty()){//每次把一层的结点全部处理完
+            int size = q.size();//统计该层有几个结点
+            depth++; //每次处理一层，只要还在处理，就说明深度在递增
+            for(int i = 0; i < size; i++){ //处理完本层，压入下一层(将该层的左右孩子压入队列中)
+                TreeNode *curr = q.front();
+                q.pop(); //去掉当前节点
+                if(curr->left){
+                    q.push(curr->left);
+                }
+                if(curr->right){
+                    q.push(curr->right);
+                }
+            }
+        }
+        return depth;
+    }
+};
