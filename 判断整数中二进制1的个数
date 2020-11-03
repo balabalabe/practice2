@@ -1,0 +1,8 @@
+int func(unsigned int Value){
+	unsigned int count = 0;
+	while (0 < Value){
+		Value = Value & (Value - 1);
+		count++;
+	}
+	return count;
+}
