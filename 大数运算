@@ -1,0 +1,78 @@
+////////////////加法
+void add(vector<int> arr, vector<int> brr, int max) {
+	vector<int> result(1000, 0);
+	for (int i = 0; i < max; i++) {
+		result[i] = arr[i] + brr[i];
+	}
+	for (int j = 0; j < max; j++) {
+		result[j + 1] += result[j] / 10;
+		result[j] = result[j] % 10;
+	}
+	if (result[max] != 0) {
+		max++;
+	}
+	for (int k = 0; k < max; k++) {
+		cout << result[max - 1 - k];
+	}
+	cout << endl;
+}
+
+///////////减法
+void sub(vector<int> arr, vector<int> brr, int max) {
+	vector<int> result(1000, 0);
+	for (int i = 0; i < max; i++) {
+		result[i] = arr[i] - brr[i];
+	}
+
+	int flag = 0;//判断result中除0以外最高位的正负，如0 0 0 -5 +2 -3 +5，则最高位是-5
+	int count = 0;//判断result中非0最高位前有几个0
+	for (int j = max - 1; j >= 0; j--) {
+		if (result[j] != 0) {
+			flag = result[j];
+			break;
+		}
+		count++;
+	}
+
+	if (flag == 0) {
+		cout << "0" << endl;
+		return;
+	}
+
+	if (flag > 0) {
+		for (int i = 0; i < max - count - 1; i++) { //借位处理
+			if (result[i] < 0) {
+				result[i] = result[i] + 10;
+				result[i + 1] -= 1;
+			}
+		}
+	}
+
+	if (flag < 0) {
+		for (int i = 0; i < max - count - 1; i++) { //借位处理
+			if (result[i] > 0) {
+				result[i] = result[i] - 10;
+				result[i + 1] += 1;
+			}
+		}
+		for (int i = max - count - 2; i >= 0; i--) { //把除最高位以外的所有负数变成正数
+			if (result[i] < 0) {
+				result[i] = -result[i];
+			}
+		}
+	}
+
+	count = 0;
+	for (int i = max - 1; i > 0; i--) { //统计两数相减后最高位前有几个0，方便输出时去0
+		if (result[i] == 0) {
+			count++;
+		}
+		else {
+			break;
+		}
+	}
+	for (int k = 0; k < max - count; k++) {
+		cout << result[max - 1 - k];//从第一个非零最高位开始输出
+	}
+	cout << endl;
+}
