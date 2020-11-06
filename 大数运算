@@ -112,4 +112,55 @@ void mul(vector<int> arr, vector<int> brr, int max) {
 }
 
 ////////////////////////////除法
+void div(vector<int> arr, int b, int max) { //大数arr除以小数b(其实是两个都是大数太复杂了，暂时不知道怎么实现)
+	vector<int> result(1000, 0);
+	int temp = 0;
+	for (int i = max - 1; i >= 0; i--) {
+		temp = temp * 10 + arr[i]; //余数退到下一位增大十倍，并加上当前位的数
+		result[i] = temp / b;
+		temp -= result[i] * b; //减去n倍的被除数，得到余数
+	}
 
+	int count = 0;
+	for (int i = max - 1; i > 0; i--) {
+		if (result[i] == 0) {
+			count++;
+		}
+		else {
+			break;
+		}
+	}
+	for (int i = max - 1 - count; i >= 0; i--) {
+		cout << result[i];
+	}
+	cout << endl;
+}
+
+int main() {
+	string a;
+	string b;
+	long long c;
+	vector<int> arr(1000, 0);
+	vector<int> brr(1000, 0);
+
+	//cin >> a >> b;
+	cin >> a >> c;
+
+	int max = a.length() > b.length() ? a.length() : b.length();
+
+	for (int i = 0; i < a.length(); i++) {
+		arr[i] = a[a.length() - 1 - i] - '0';
+	}
+	for (int j = 0; j < b.length(); j++) {
+		brr[j] = b[b.length() - 1 - j] - '0';
+	}
+	
+	//add(arr, brr, max);
+
+	//sub(arr, brr, max);
+
+	//mul(arr, brr, max);
+
+	div(arr, c, max);
+	return 0;
+}
