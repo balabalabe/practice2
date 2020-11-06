@@ -76,3 +76,40 @@ void sub(vector<int> arr, vector<int> brr, int max) {
 	}
 	cout << endl;
 }
+
+//////////////////////////乘法
+void mul(vector<int> arr, vector<int> brr, int max) {
+	vector<int> result(1000, 0);
+
+	for (int i = 0; i < max; i++) {
+		for (int j = 0; j < max; j++) {
+			result[i + j] += arr[i] * brr[j]; //利用i+j实现易位相加，每进入下一层循环，就整体往前搬一位
+			result[i + j + 1] += result[i + j] / 10; //进位
+			result[i + j] = result[i + j] % 10;
+		}
+	}
+
+	int count = 0;
+	int flag = 0;
+	for (int k = 2 * max - 1; k > 0; k--) {
+		if (result[k] != 0) {
+			flag = 1;//不是全为0
+			break;
+		}
+		else {
+			count++;
+		}
+	}
+
+	if (flag == 0) { //如果结果全为0，输出0( 123456 * 0 = 0 )
+		cout << "0";
+		return;
+	}
+	for (int k = 2 * max -1 - count; k >= 0; k--) {
+		cout << result[k];
+	}
+	cout << endl;
+}
+
+////////////////////////////除法
+
