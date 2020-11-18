@@ -1,0 +1,50 @@
+方法一：利用短路&&的性质
+int func(int n,int sum){
+    n && func(n-1,sum);//当n>0时会进行一个递归
+    return sum=sum+n;//递归返回时，进行相加
+}
+int main(){
+    int sum=0;
+    int n=100;
+    printf("1+2+3+....+n=%d",func(n,sum));
+}
+
+方法二：利用构造函数和静态变量
+#include <iostream>
+using namespace std;
+ 
+class Temp{
+public:
+    Temp(){
+        ++N;//每调用一次构造函数，n+1
+        Sum+=N;//sum=sum+n
+    }
+    static void Reset(){
+        N=0;
+        Sum=0;
+    }
+    static int GetSum(){
+        return Sum;
+    }
+private:
+    static int N;//具有全局变量的生命周期，且被所有对象所共享
+    static int Sum;//具有全局变量的生命周期，且被所有对象所共享
+};
+ 
+int Temp::N=0;
+int Temp::Sum=0;
+ 
+int solution_Sum(int n){
+    Temp::Reset();
+    
+    Temp* a=new Temp[n];//new一个数组时，会调用n次构造函数
+    delete []a;
+    a=0;
+    
+    return Temp::GetSum();
+}
+ 
+int main(){
+	cout<<solution_Sum(100)<<endl;
+	return 0;
+}
